@@ -1,0 +1,6 @@
+(library
+ (name alexis_test)
+ (inline_tests)
+ (libraries core alexis_lib)
+ (preprocess
+  (pps ppx_jane)))

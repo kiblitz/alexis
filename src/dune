@@ -1,0 +1,7 @@
+(library
+ (name alexis_lib)
+ (public_name alexis.lib)
+ (inline_tests)
+ (libraries core core_kernel.nonempty_list)
+ (preprocess
+  (pps ppx_expect ppx_jane)))

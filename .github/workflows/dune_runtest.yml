@@ -1,0 +1,68 @@
+name: OCaml Dune Runtest
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  build_and_test:
+    name: Build & Test
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: alexis/
+
+      - name: Checkout Windows patched version of [base_bigstring]
+        uses: actions/checkout@v4
+        with:
+          repository: kiblitz/win-base_bigstring
+          path: win-base_bigstring/
+
+      - name: Set up OCaml environment
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: "5.3.0"
+
+      - name: Cache opam dependencies
+        id: cache-opam-deps
+        uses: actions/cache@v4
+        with:
+          path: _opam/
+          key: opam-deps
+
+      - name: Cache dune build artifacts
+        id: cache-dune-artifacts
+        uses: actions/cache@v4
+        with:
+          path: alexis/_build/
+          key: dune-artifacts
+
+      - name: Pin [base_bigstring] to Windows patched version
+        working-directory: win-base_bigstring
+        run: |
+          opam pin add base_bigstring . --no-action
+
+      - name: Install opam dependencies
+        working-directory: alexis
+        run: |
+          opam install . --deps-only --with-test
+
+      - name: Run dune tests
+        working-directory: alexis
+        run: |
+          (& opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ }
+          dune runtest 2>&1
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "::error file=./.github/workflows/dune_runtest.yml::Expect test diffs detected!"
+            dune runtest
+            exit 1
+          } else {
+            Write-Host "SUCCESS: All expect tests pass, no diffs to promote"
+          }
