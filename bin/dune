@@ -1,0 +1,6 @@
+(executable
+ (name alexis_lexcaster_bin)
+ (public_name alexis.lexcaster_example_bin)
+ (libraries alexis_examples alexis_lexcaster cmdliner core)
+ (preprocess
+  (pps ppx_expect ppx_jane)))

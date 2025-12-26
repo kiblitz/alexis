@@ -108,6 +108,8 @@ module To_process = struct
 end
 
 module Make (M : Lexer_intf.Config_s) = struct
+  include M
+
   let lex ~input ~filename =
     let rec loop_whitestring to_process =
       (let%map.Option next_to_process, c =
