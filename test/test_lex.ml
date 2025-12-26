@@ -1,8 +1,8 @@
 open! Core
 open! Import
-module Token_pl = Util.Common_lexer.Programming_language.Token
+module Token_pl = Alexis_examples.Ml_lang.Token
 
-let lex_pl input = Util.Common_lexer.Programming_language.lex ~input ~filename:"file.txt"
+let lex_pl input = Alexis_examples.Ml_lang.lex ~input ~filename:"file.txt"
 
 let%expect_test "underscore" =
   let tokens =
