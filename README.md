@@ -99,7 +99,7 @@ If:
 
 DFA inference is a single-pass algorithm. However, the Alexis lexer continues to perform partial (per-character) inference until it reaches a dead state, **and then backtracks to the last accept state**. In practice, most inputs and grammars shouldn't run into bad versions of this (where this practically dominates the computation time).
 
-### Degerate Edgecase Example
+### Degenerate Edgecase Example
 - Token Foo: matches on [a]
 - Token Bar: matches on [aa...aab]
 - Input: [aa...aa]
