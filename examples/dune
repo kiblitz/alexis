@@ -1,6 +1,5 @@
 (library
  (name alexis_examples)
- (public_name alexis.examples)
  (inline_tests)
  (libraries alexis_lib core)
  (preprocess

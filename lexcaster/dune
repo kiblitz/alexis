@@ -1,6 +1,5 @@
 (library
  (name alexis_lexcaster)
- (public_name alexis.lexcaster)
  (inline_tests)
  (libraries alexis_lib cmdliner core)
  (preprocess

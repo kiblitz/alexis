@@ -1,6 +1,6 @@
 (library
  (name alexis_lib)
- (public_name alexis.lib)
+ (public_name alexis.internal)
  (inline_tests)
  (libraries core core_kernel.nonempty_list)
  (preprocess
