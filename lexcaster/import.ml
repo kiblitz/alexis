@@ -1,6 +1,10 @@
 include struct
   open Alexis_lib
   module Lexer = Lexer
+end
+
+include struct
+  open Alexis_util
 
   include struct
     open Source_position

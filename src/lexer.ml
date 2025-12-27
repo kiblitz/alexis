@@ -1,4 +1,5 @@
 open! Core
+open! Import
 
 module type S = Lexer_intf.Lexer_s
 

@@ -2,6 +2,6 @@
  (name alexis)
  (public_name alexis)
  (inline_tests)
- (libraries alexis_lib core core_kernel.nonempty_list)
+ (libraries alexis_lexcaster alexis_lib core core_kernel.nonempty_list)
  (preprocess
   (pps ppx_expect ppx_jane)))

@@ -1,4 +1,5 @@
 open! Core
+open! Import
 
 module Config = struct
   module T = struct

@@ -2,6 +2,6 @@
  (name alexis_lexcaster)
  (public_name alexis.lexcaster)
  (inline_tests)
- (libraries alexis_lib cmdliner core)
+ (libraries alexis_lib alexis_util cmdliner core)
  (preprocess
   (pps ppx_expect ppx_jane)))

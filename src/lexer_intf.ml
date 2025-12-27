@@ -1,4 +1,5 @@
 open! Core
+open! Import
 
 module type Config_s = sig
   type token [@@deriving equal, sexp_of]
