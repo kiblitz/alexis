@@ -16,6 +16,9 @@ and generates a lexer that outputs a `token` list on success.
 Check out `examples/` for some toy lexers built using Alexis!
 
 You can also try out the `lexcaster_example_bin` binary, a repl for the lexers in `examples/`:
+
+https://github.com/user-attachments/assets/cc195042-33b5-4d26-a62d-f15da48ad6c3
+
 ```
 dune exec bin/alexis_lexcaster_example_bin.exe
 ```
