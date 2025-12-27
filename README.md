@@ -17,13 +17,13 @@ Check out `examples/` for some toy lexers built using Alexis!
 
 You can also try out the `lexcaster_example_bin` binary, a repl for the lexers in `examples/`:
 
-https://github.com/user-attachments/assets/cc195042-33b5-4d26-a62d-f15da48ad6c3
-
 ```
 dune exec bin/alexis_lexcaster_example_bin.exe
 ```
 
 *note: whitespace is treated as a special character that is skipped between lexed tokens*
+
+https://github.com/user-attachments/assets/a3d0542b-29d2-46b2-b072-c44faa71a370
 
 ## Making a `Regex_dfa`
 ### Regex Configs
@@ -104,4 +104,4 @@ DFA inference is a single-pass algorithm. However, the Alexis lexer continues to
 - Token Bar: matches on [aa...aab]
 - Input: [aa...aa]
 
-Alexis will read the whole input because [Bar] is still matchable until the very end. After reaching <eof>, Alexis will backtrack to index 0 (which is the last accept state -- accepting Foo). At this point, the lexer will continue iteration from index 1 (and repeat the same process) resulting in a quadratic operation.
+Alexis will read the whole input because [Bar] is still matchable until the very end. After reaching <eof>, Alexis will backtrack to index 0 (which is the last accept state -- accepting [Foo]). At this point, the lexer will continue iteration from index 1 (and repeat the same process) resulting in a quadratic operation.
