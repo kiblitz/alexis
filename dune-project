@@ -22,6 +22,7 @@
  (description
   "Alexis provides a functor for creating a lexer using regex-based rules. Lexers are usually the first phase of a compiler or interpreter where raw characters are converted into meaningful tokens. Unlike standard lexers that may backtrack, Alexis converts patterns into a DFA, allowing it to scan input in a single linear pass.")
  (depends
+  "cmdliner"
   "core"
   "core_kernel"
   ("dune"

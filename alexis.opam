@@ -11,6 +11,7 @@ license: "MIT"
 homepage: "https://github.com/kiblitz/alexis"
 bug-reports: "https://github.com/kiblitz/alexis/issues"
 depends: [
+  "cmdliner"
   "core"
   "core_kernel"
   "dune" {>= "3.18" & >= "3.18.1"}
