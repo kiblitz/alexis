@@ -104,4 +104,4 @@ DFA inference is a single-pass algorithm. However, the Alexis lexer continues to
 - Token Bar: matches on [aa...aab]
 - Input: [aa...aa]
 
-Alexis will read the whole input because [Bar] is still matchable until the very end. After reaching <eof>, Alexis will backtrack to index 0 (which is the last accept state -- accepting Foo). At this point, the lexer will continue iteration from index 1 (and repeat the same process) resulting in a quadratic operation.
+Alexis will read the whole input because [Bar] is still matchable until the very end. After reaching <eof>, Alexis will backtrack to index 0 (which is the last accept state -- accepting [Foo]). At this point, the lexer will continue iteration from index 1 (and repeat the same process) resulting in a quadratic operation.
