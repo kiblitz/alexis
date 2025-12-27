@@ -149,7 +149,7 @@ module Config = struct
       let char_or_digit = List.filter Char.all ~f:Char.is_digit in
       char_or char_or_digit
     in
-    let single_char without =
+    let single_char ~without =
       let backslash = '\\' in
       let escaped = Concat (Char backslash, char_or Char.all) in
       let char_or_unescaped =
@@ -219,11 +219,11 @@ module Config = struct
            , concat [ Star num; Char '.'; plus num ] ))
         ~cont_of_match:(fun buffer -> Token.Constant (Float (Buffer.contents buffer)))
     ; text_dfa
-        (single_char [ '\'' ])
+        (single_char ~without:[ '\'' ])
         ~constructor:(fun str -> Token.Constant (Char str))
         ~delimiter:'\''
     ; text_dfa
-        (Star (single_char [ '\"' ]))
+        (Star (single_char ~without:[ '\"' ]))
         ~constructor:(fun str -> Token.Constant (String str))
         ~delimiter:'\"'
     ; (* Identifier *)
