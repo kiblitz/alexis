@@ -17,13 +17,13 @@ Check out `examples/` for some toy lexers built using Alexis!
 
 You can also try out the `lexcaster_example_bin` binary, a repl for the lexers in `examples/`:
 
-https://github.com/user-attachments/assets/a3d0542b-29d2-46b2-b072-c44faa71a370
-
 ```
 dune exec bin/alexis_lexcaster_example_bin.exe
 ```
 
 *note: whitespace is treated as a special character that is skipped between lexed tokens*
+
+https://github.com/user-attachments/assets/a3d0542b-29d2-46b2-b072-c44faa71a370
 
 ## Making a `Regex_dfa`
 ### Regex Configs
