@@ -46,7 +46,7 @@ module Iterator : sig
     [@@deriving sexp_of]
   end
 
-  val next : 'a t -> c:char -> 'a Result.t
+  val next : 'a t -> c:char option -> 'a Result.t
 end
 
 module For_testing : sig

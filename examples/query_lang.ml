@@ -4,7 +4,6 @@ open! Import
 module Keyword = struct
   type t =
     | Select
-    | From
     | Where
     | Like
   [@@deriving sexp_of]
@@ -94,7 +93,6 @@ module Config = struct
     in
     [ (* Keyword *)
       const_dfa (exact_case_insensitive "select") (Token.Keyword Select)
-    ; const_dfa (exact_case_insensitive "from") (Token.Keyword From)
     ; const_dfa (exact_case_insensitive "where") (Token.Keyword Where)
     ; const_dfa (exact_case_insensitive "like") (Token.Keyword Like)
     ; (* Constant*)

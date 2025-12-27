@@ -153,7 +153,8 @@ bar = (m, n) := [o = p; q : r.s::t] in
         ((value (Identifier ((name q)))) (section file.txt:2,24-2,25))
         ((value (Symbol Colon)) (section file.txt:2,26-2,27))
         ((value (Identifier ((name r)))) (section file.txt:2,28-2,29))))
-      (errors (("Failed to lex" (input .s))))))
+      (errors
+       (("Failed to lex" (section ((value .s) (section file.txt:2,29-2,30))))))))
     |}]
 ;;
 

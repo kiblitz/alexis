@@ -7,7 +7,7 @@ let to_dfa_iterator config =
 ;;
 
 let print_next_result ?(silent = false) iterator c =
-  let result = Regex_dfa.Iterator.next iterator ~c in
+  let result = Regex_dfa.Iterator.next iterator ~c:(Some c) in
   if not silent then print_s [%message (result : string Regex_dfa.Iterator.Result.t)]
 ;;
 

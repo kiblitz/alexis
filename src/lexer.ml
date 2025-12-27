@@ -112,33 +112,50 @@ module Make (M : Lexer_intf.Config_s) = struct
 
   let lex ~input ~filename =
     let rec loop_whitestring to_process =
-      (let%map.Option next_to_process, c =
+      (let%bind.Option to_process = to_process in
+       let%map.Option next_to_process, c =
          To_process.next ~reset_current_lext_token_position_info:true to_process
        in
        if Char.is_whitespace c
-       then loop_whitestring next_to_process
+       then loop_whitestring (Some next_to_process)
        else on_non_whitespace to_process)
       |> Option.value ~default:(With_errors.return [])
-    and on_non_whitespace to_process =
+    and on_non_whitespace to_process' =
       let iterator = Regex_dfa.Iterator.make M.token_dfa in
       let rec loop to_process =
-        (let%map.Option next_to_process, c = To_process.next to_process in
-         match Regex_dfa.Iterator.next iterator ~c with
-         | Complete { result; unused_len = _ } ->
-           (match To_process.result_and_reset next_to_process ~result with
-            | Error error -> With_errors.create_error [] error
-            | Ok (result, next_to_process) ->
-              let%map.With_errors next_results = loop_whitestring next_to_process in
-              result :: next_results)
-         | Failure { input } ->
-           With_errors.error_s [] [%message "Failed to lex" (input : string)]
-         | Incomplete { is_accepting_state = false } -> loop next_to_process
-         | Incomplete { is_accepting_state = true } ->
-           loop (To_process.update_last_accepting_state next_to_process))
-        |> Option.value ~default:(With_errors.return [])
+        let next_to_process, c =
+          match To_process.next to_process with
+          | Some (next_to_process, c) -> Some next_to_process, Some c
+          | None -> None, None
+        in
+        let latest_to_process = Option.value next_to_process ~default:to_process in
+        match Regex_dfa.Iterator.next iterator ~c with
+        | Complete { result; unused_len = _ } ->
+          (match To_process.result_and_reset latest_to_process ~result with
+           | Error error -> With_errors.create_error [] error
+           | Ok (result, next_to_process) ->
+             let%map.With_errors next_results = loop_whitestring (Some next_to_process) in
+             result :: next_results)
+        | Failure { input } ->
+          let section =
+            let { To_process.Current_lex_token_position_info.start; current } =
+              to_process.current_lex_token_position_info
+            in
+            { Source_position.With_section.value = input
+            ; filename
+            ; start
+            ; end_ = current
+            }
+          in
+          With_errors.error_s
+            []
+            [%message "Failed to lex" (section : string Source_position.With_section.t)]
+        | Incomplete { is_accepting_state = false } -> loop latest_to_process
+        | Incomplete { is_accepting_state = true } ->
+          loop (To_process.update_last_accepting_state latest_to_process)
       in
-      loop to_process
+      loop to_process'
     in
-    loop_whitestring (To_process.create input ~filename)
+    loop_whitestring (To_process.create input ~filename |> Some)
   ;;
 end

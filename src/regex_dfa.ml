@@ -261,8 +261,12 @@ module Iterator = struct
     then (
       t.last_accepting_input_len <- Buffer.length t.input;
       t.last_accepting_state_metadata <- t.node.accepting_state_metadata);
-    Buffer.add_char t.input c;
-    match Map.find t.node.next_nodes c with
+    let next_node =
+      let%bind.Option c = c in
+      Buffer.add_char t.input c;
+      Map.find t.node.next_nodes c
+    in
+    match next_node with
     | None -> on_finish ()
     | Some next_node -> on_incomplete next_node
   ;;
