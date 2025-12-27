@@ -18,9 +18,9 @@
 (package
  (name alexis)
  (synopsis
-  "a single-pass lexer library powered by regex deterministic finite automata")
+  "an approximately single-pass lexer library powered by regex deterministic finite automata")
  (description
-  "Alexis provides a functor for creating a lexer using regex-based rules. Lexers are usually the first phase of a compiler or interpreter where raw characters are converted into meaningful tokens. Unlike standard lexers that may backtrack, Alexis converts patterns into a DFA, allowing it to scan input in a single linear pass.")
+  "Lexers are usually the first phase of a compiler or interpreter where raw characters are converted into meaningful tokens. Alexis provides an API which preprocess generates a DFA from regex configs, allowing it to scan input in an approximately single linear pass.")
  (depends
   "cmdliner"
   "core"
