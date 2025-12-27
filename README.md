@@ -59,4 +59,4 @@ The `priority` argument (default=`1`) is used in situations where multiple DFAs 
 
 This is especially useful for lexing freeform tokens (i.e. variable names) which should be set to **low** priority so that keywords are chosen ahead of them.
 
-**For instance, `true` is a valid variable name in the sense that it starts with an alpha and contains only alphanumerics, but it should definitely match to a `bool`.**
+*For instance, `true` is a valid variable name in the sense that it starts with an alpha and contains only alphanumerics, but it should definitely match to a `bool`.*
