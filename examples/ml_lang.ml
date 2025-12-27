@@ -244,7 +244,22 @@ module Config = struct
     ; Regex_dfa.create
         (plus
            (char_or
-              [ '='; '~'; '@'; '^'; '|'; '&'; '+'; '-'; '*'; '/'; '$'; '%'; '>'; '<' ]))
+              [ '.'
+              ; '='
+              ; '~'
+              ; '@'
+              ; '^'
+              ; '|'
+              ; '&'
+              ; '+'
+              ; '-'
+              ; '*'
+              ; '/'
+              ; '$'
+              ; '%'
+              ; '>'
+              ; '<'
+              ]))
         ~cont_of_match:(fun buffer ->
           let base_symbols =
             Buffer.contents buffer

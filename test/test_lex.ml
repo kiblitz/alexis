@@ -152,9 +152,18 @@ bar = (m, n) := [o = p; q : r.s::t] in
         ((value (Symbol Semicolon)) (section file.txt:2,22-2,23))
         ((value (Identifier ((name q)))) (section file.txt:2,24-2,25))
         ((value (Symbol Colon)) (section file.txt:2,26-2,27))
-        ((value (Identifier ((name r)))) (section file.txt:2,28-2,29))))
-      (errors
-       (("Failed to lex" (section ((value .s) (section file.txt:2,29-2,30))))))))
+        ((value (Identifier ((name r)))) (section file.txt:2,28-2,29))
+        ((value (Symbol (Operator (Base (Dot))))) (section file.txt:2,29-2,30))
+        ((value (Identifier ((name s)))) (section file.txt:2,30-2,31))
+        ((value (Symbol (Operator (Non_custom Double_colon))))
+         (section file.txt:2,31-2,33))
+        ((value (Identifier ((name t)))) (section file.txt:2,33-2,34))
+        ((value (Grouping (Square_bracket Right))) (section file.txt:2,34-2,35))
+        ((value (Definition In)) (section file.txt:2,36-2,38))
+        ((value (Grouping (Parenthesis Left))) (section file.txt:3,0-3,1))
+        ((value (Grouping (Parenthesis Right))) (section file.txt:3,1-3,2))
+        ((value (Symbol Semicolon)) (section file.txt:3,2-3,3))))
+      (errors ())))
     |}]
 ;;
 
