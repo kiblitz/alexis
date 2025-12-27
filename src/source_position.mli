@@ -5,14 +5,14 @@ module Within_file : sig
     { line_number : int
     ; column_number : int
     }
-  [@@deriving fields ~getters, sexp_of]
+  [@@deriving equal, fields ~getters, sexp_of]
 end
 
 type t =
   { filename : string
   ; within_file : Within_file.t
   }
-[@@deriving fields ~getters, sexp_of]
+[@@deriving equal, fields ~getters, sexp_of]
 
 module With_section : sig
   type 'a t =
@@ -21,5 +21,5 @@ module With_section : sig
     ; start : Within_file.t
     ; end_ : Within_file.t
     }
-  [@@deriving fields ~getters, sexp_of]
+  [@@deriving equal, fields ~getters, sexp_of]
 end

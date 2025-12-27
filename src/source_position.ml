@@ -5,14 +5,14 @@ module Within_file = struct
     { line_number : int
     ; column_number : int
     }
-  [@@deriving fields ~getters, sexp_of]
+  [@@deriving equal, fields ~getters, sexp_of]
 end
 
 type t =
   { filename : string
   ; within_file : Within_file.t
   }
-[@@deriving fields ~getters, sexp_of]
+[@@deriving equal, fields ~getters, sexp_of]
 
 module With_section = struct
   type 'a t =
@@ -21,7 +21,7 @@ module With_section = struct
     ; start : Within_file.t
     ; end_ : Within_file.t
     }
-  [@@deriving fields ~getters]
+  [@@deriving equal, fields ~getters]
 
   let sexp_of_t sexp_of_a { value; filename; start; end_ } =
     let module For_sexp_of = struct

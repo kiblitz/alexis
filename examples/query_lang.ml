@@ -1,45 +1,45 @@
 open! Core
 open! Import
 
-module Keyword = struct
-  type t =
-    | Select
-    | Where
-    | Like
-  [@@deriving sexp_of]
-end
-
-module Constant = struct
-  type t =
-    | Null
-    | Bool of bool
-    | Num of string
-    | Date of string
-    | String of string
-  [@@deriving sexp_of]
-end
-
-module Clause = struct
-  type t =
-    | Equal
-    | Less_than
-    | Less_than_or_equal
-    | Greater_than
-    | Greater_than_or_equal
-    | Not_equal
-    | And
-    | Or
-  [@@deriving sexp_of]
-end
-
-module Parenthesis = struct
-  type t =
-    | Left
-    | Right
-  [@@deriving sexp_of]
-end
-
 module Token = struct
+  module Keyword = struct
+    type t =
+      | Select
+      | Where
+      | Like
+    [@@deriving equal, sexp_of]
+  end
+
+  module Constant = struct
+    type t =
+      | Null
+      | Bool of bool
+      | Num of string
+      | Date of string
+      | String of string
+    [@@deriving equal, sexp_of]
+  end
+
+  module Clause = struct
+    type t =
+      | Equal
+      | Less_than
+      | Less_than_or_equal
+      | Greater_than
+      | Greater_than_or_equal
+      | Not_equal
+      | And
+      | Or
+    [@@deriving equal, sexp_of]
+  end
+
+  module Parenthesis = struct
+    type t =
+      | Left
+      | Right
+    [@@deriving equal, sexp_of]
+  end
+
   type t =
     | Keyword of Keyword.t
     | Constant of Constant.t
@@ -47,11 +47,11 @@ module Token = struct
     | Clause of Clause.t
     | Parenthesis of Parenthesis.t
     | Star
-  [@@deriving sexp_of]
+  [@@deriving equal, sexp_of]
 end
 
 module Config = struct
-  type token = Token.t [@@deriving sexp_of]
+  type token = Token.t [@@deriving equal, sexp_of]
 
   let token_dfa =
     let open Regex_dfa.Config in

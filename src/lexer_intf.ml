@@ -1,13 +1,13 @@
 open! Core
 
 module type Config_s = sig
-  type token [@@deriving sexp_of]
+  type token [@@deriving equal, sexp_of]
 
   val token_dfa : token Regex_dfa.t
 end
 
 module type Lexer_s = sig
-  type token [@@deriving sexp_of]
+  type token [@@deriving equal, sexp_of]
 
   val lex
     :  input:string

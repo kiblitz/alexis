@@ -1,128 +1,128 @@
 open! Core
 open! Import
 
-module Identifier = struct
-  type t = { name : string } [@@deriving sexp_of]
-end
+module Token = struct
+  module Identifier = struct
+    type t = { name : string } [@@deriving equal, sexp_of]
+  end
 
-module Big_identifier = struct
-  type t = { name : string } [@@deriving sexp_of]
-end
+  module Big_identifier = struct
+    type t = { name : string } [@@deriving equal, sexp_of]
+  end
 
-module With_transformation = struct
-  type t = Identifier.t option [@@deriving sexp_of]
-end
+  module With_transformation = struct
+    type t = Identifier.t option [@@deriving equal, sexp_of]
+  end
 
-module Constant = struct
-  type t =
-    | Bool of bool
-    | Int of string
-    | Float of string
-    | Char of string
-    | String of string
-  [@@deriving sexp_of]
-end
+  module Constant = struct
+    type t =
+      | Bool of bool
+      | Int of string
+      | Float of string
+      | Char of string
+      | String of string
+    [@@deriving equal, sexp_of]
+  end
 
-module Symbol = struct
-  module Operator = struct
-    module Base = struct
+  module Symbol = struct
+    module Operator = struct
+      module Base = struct
+        type t =
+          | Dot
+          | Equal
+          | Tilda
+          | At
+          | Caret
+          | Pipe
+          | Ampersand
+          | Plus
+          | Minus
+          | Times
+          | Div
+          | Dollar
+          | Percent
+          | Greater
+          | Less
+        [@@deriving equal, sexp_of]
+      end
+
+      module Non_custom = struct
+        type t = Double_colon [@@deriving equal, sexp_of]
+      end
+
       type t =
-        | Dot
-        | Equal
-        | Tilda
-        | At
-        | Caret
-        | Pipe
-        | Ampersand
-        | Plus
-        | Minus
-        | Times
-        | Div
-        | Dollar
-        | Percent
-        | Greater
-        | Less
-      [@@deriving sexp_of]
-    end
-
-    module Non_custom = struct
-      type t = Double_colon [@@deriving sexp_of]
+        | Base of Base.t Nonempty_list.t
+        | Non_custom of Non_custom.t
+      [@@deriving equal, sexp_of]
     end
 
     type t =
-      | Base of Base.t Nonempty_list.t
-      | Non_custom of Non_custom.t
-    [@@deriving sexp_of]
+      | Operator of Operator.t
+      | Bang
+      | Semicolon
+      | Walrus
+      | Colon
+      | Comma
+    [@@deriving equal, sexp_of]
   end
 
-  type t =
-    | Operator of Operator.t
-    | Bang
-    | Semicolon
-    | Walrus
-    | Colon
-    | Comma
-  [@@deriving sexp_of]
-end
+  module Import = struct
+    type t =
+      | Open of { allow_unused : bool }
+      | Include
+    [@@deriving equal, sexp_of]
+  end
 
-module Import = struct
-  type t =
-    | Open of { allow_unused : bool }
-    | Include
-  [@@deriving sexp_of]
-end
+  module Definition = struct
+    type t =
+      | Assign_with_transformation of Identifier.t
+      | Rec
+      | And
+      | In
+      | Module of With_transformation.t
+      | Sig
+      | Struct
+      | End
+      | Underscore
+    [@@deriving equal, sexp_of]
+  end
 
-module Definition = struct
-  type t =
-    | Assign_with_transformation of Identifier.t
-    | Rec
-    | And
-    | In
-    | Module of With_transformation.t
-    | Sig
-    | Struct
-    | End
-    | Underscore
-  [@@deriving sexp_of]
-end
+  module Conditional = struct
+    type t =
+      | If of With_transformation.t
+      | Then
+      | Else
+      | Match of With_transformation.t
+      | When
+      | Function
+    [@@deriving equal, sexp_of]
+  end
 
-module Conditional = struct
-  type t =
-    | If of With_transformation.t
-    | Then
-    | Else
-    | Match of With_transformation.t
-    | When
-    | Function
-  [@@deriving sexp_of]
-end
+  module Typeful = struct
+    type t =
+      | Type
+      | As
+      | Of
+      | Mutable
+      | Nonrec
+    [@@deriving equal, sexp_of]
+  end
 
-module Typeful = struct
-  type t =
-    | Type
-    | As
-    | Of
-    | Mutable
-    | Nonrec
-  [@@deriving sexp_of]
-end
+  module Left_or_right = struct
+    type t =
+      | Left
+      | Right
+    [@@deriving equal, sexp_of]
+  end
 
-module Left_or_right = struct
-  type t =
-    | Left
-    | Right
-  [@@deriving sexp_of]
-end
+  module Grouping = struct
+    type t =
+      | Parenthesis of Left_or_right.t
+      | Curly_bracket of Left_or_right.t
+      | Square_bracket of Left_or_right.t
+    [@@deriving equal, sexp_of]
+  end
 
-module Grouping = struct
-  type t =
-    | Parenthesis of Left_or_right.t
-    | Curly_bracket of Left_or_right.t
-    | Square_bracket of Left_or_right.t
-  [@@deriving sexp_of]
-end
-
-module Token = struct
   type t =
     | Constant of Constant.t
     | Identifier of Identifier.t
@@ -137,11 +137,11 @@ module Token = struct
     | Op
     | Functor
     | With
-  [@@deriving sexp_of]
+  [@@deriving equal, sexp_of]
 end
 
 module Config = struct
-  type token = Token.t [@@deriving sexp_of]
+  type token = Token.t [@@deriving equal, sexp_of]
 
   let token_dfa =
     let open Regex_dfa.Config in
@@ -206,7 +206,7 @@ module Config = struct
           Bytes.unsafe_to_string
             ~no_mutation_while_string_reachable:(buffer_suffix buffer ~pos:keyword_len)
         in
-        constructor { Identifier.name })
+        constructor { Token.Identifier.name })
     in
     [ (* Constant *)
       const_dfa (exact "true") (Token.Constant (Bool true))
@@ -266,7 +266,7 @@ module Config = struct
             |> String.to_list
             |> Nonempty_list.of_list_exn
             |> Nonempty_list.map ~f:(function
-              | '.' -> Symbol.Operator.Base.Dot
+              | '.' -> Token.Symbol.Operator.Base.Dot
               | '=' -> Equal
               | '~' -> Tilda
               | '@' -> At

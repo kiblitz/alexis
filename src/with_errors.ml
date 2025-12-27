@@ -5,7 +5,7 @@ module T = struct
     { value : 'a
     ; errors : Error.t list
     }
-  [@@deriving sexp_of]
+  [@@deriving equal, fields ~getters, sexp_of]
 
   let return value = { value; errors = [] }
 

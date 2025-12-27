@@ -1,17 +1,26 @@
 open! Core
+open Alexis_examples
 module Lexcaster = Alexis_lexcaster.Lexcaster
 
 let query_lang =
   Lexcaster.command
-    ~docs:"example query language"
-    (module Alexis_examples.Query_lang)
+    ~docs:"example query language (quit=[quit ()])"
+    ~exit_token_sequence:
+      Query_lang.Token.[ Column { id = "quit" }; Parenthesis Left; Parenthesis Right ]
+    (module Query_lang)
     ~subcommand:"query-lang"
 ;;
 
 let ml_lang =
   Lexcaster.command
-    ~docs:"example ml-family programming language"
-    (module Alexis_examples.Ml_lang)
+    ~docs:"example ml-family programming language (quit=[quit ()])"
+    ~exit_token_sequence:
+      Ml_lang.Token.
+        [ Identifier { name = "quit" }
+        ; Grouping (Parenthesis Left)
+        ; Grouping (Parenthesis Right)
+        ]
+    (module Ml_lang)
     ~subcommand:"ml-lang"
 ;;
 
