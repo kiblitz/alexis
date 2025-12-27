@@ -12,6 +12,14 @@ type token
 val token_dfa : token Regex_dfa.t
 ```
 and generates a lexer that outputs a `token` list on success.
+## Demo
+Check out `examples/` for some toy lexers built using Alexis!
+
+You can also try out the `lexcaster_example_bin` binary, a repl for the lexers in `examples/`:
+```
+dune exec bin/alexis_lexcaster_example_bin.exe
+```
+
 ## Making a `Regex_dfa`
 ### Regex Configs
 Regex configs are recursively defined with the following type signature:
